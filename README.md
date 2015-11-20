@@ -1,19 +1,22 @@
 # Mac OS X Dev Setup
 
-This document describes how I set up my developer environment on a new MacBook or iMac. We will set up [Node](http://nodejs.org/) (JavaScript), [Python](http://www.python.org/), and [Ruby](http://www.ruby-lang.org/) environments, mainly for JavaScript and Python development. Even if you don't program in all three, it is good to have them as many command-line tools use one of them. As you read  and follow these steps, feel free to send me any feedback or comments you may have.
+This is my updated fork of [nicolashery's mac-dev-setup](https://github.com/nicolashery/mac-dev-setup). I've added some from [hacker codex](http://hackercodex.com/guide/mac-osx-mavericks-10.9-configuration/). This is mostly for personal reference, but may be useful for others.
 
-The document assumes you are new to Mac. The steps below were tested on **OS X Mountain Lion**.
+This document describes how I set up my developer environment on a new MacBook or iMac. We will set up [Node](http://nodejs.org/) (JavaScript), [Python](http://www.python.org/), and [Ruby](http://www.ruby-lang.org/) environments, mainly for JavaScript and Python development. Even if you don't program in all three, it is good to have them as many command-line tools use one of them.
 
-If you have any comments or suggestions, feel free to give me a shout [on Twitter](https://twitter.com/nicolahery)!
+The document assumes you are new to Mac. The steps below were tested on **OS X 10.11 El Capitan**.
+
 
 - [System update](#system-update)
 - [System preferences](#system-preferences)
+- [Safari](#safari)
 - [Google Chrome](#google-chrome)
-- [iTerm2](#iterm2)
+- [Compiler](#compiler)
 - [Homebrew](#homebrew)
+- [Homebrew Cask](#homebrew-cask)
+- [iTerm2](#iterm2)
 - [Consolas](#consolas)
 - [Beautiful terminal](#beautiful-terminal)
-- [iTerm2](#iterm2)
 - [Git](#git)
 - [Sublime Text](#sublime-text)
 - [Vim](#vim)
@@ -35,7 +38,7 @@ If you have any comments or suggestions, feel free to give me a shout [on Twitte
 
 ## System update
 
-First thing you need to do, on any OS actually, is update the system! For that: **Apple Icon > Software Update...**
+First thing you need to do, on any OS actually, is update the system! For that: **Apple Icon > App Store** and click on **Updates** at the top
 
 ## System preferences
 
@@ -46,15 +49,44 @@ In **Apple Icon > System Preferences**:
 - Trackpad > Tap to click
 - Keyboard > Key Repeat > Fast (all the way to the right)
 - Keyboard > Delay Until Repeat > Short (all the way to the right)
-- Dock > Automatically hide and show the Dock
+- Spotlight > Uncheck fonts, images, Bing etc.
+- Spotlight > Keyboard shortcuts > uncheck so Cmd-Space can be used by Alfred
 
-## Safari Setup
+#### Dock
+- Size - about 10%
+- [X] Magnification - set to about 60%
+- Position on screen:  Left
+
+#### Security & Privacy
+- General > Require password **1 minute** after sleep
+- General > Allow apps downloaded from: Mac App Store and identified developers
+
+## Finder
+- Toolbar
+    - Update to add Path
+
+- Menu -> Go -> Connect to Server
+    - add share for work "smb://192.168.0.1/dir" and hit +
+
+- Sidebar
+    - Add home and code direcotry
+
+- Preferences
+    - General > New folder windows show: home directory
+    - Sidebar > Show computer under Devices
+
+## Safari
+
+#### Menu -> View
+- Show favorites bar
+- Show status bar
+
+### Preferences
 
 #### General
 - [X] Smart Search Field: Show full website address
 - [X] Show Develop menu in menu bar
 
-#### Tabs
 #### AutoFill
 - [X] Using info from my Contacts card
 - [ ] User names and passwords
@@ -62,14 +94,12 @@ In **Apple Icon > System Preferences**:
 - [X] Other forms
 
 #### Passwords
-- [ ] AutoFill user names and passwords 
+- [ ] AutoFill user names and passwords
 
-#### Search
-#### Security
 #### Privacy
 - Cookies and website data - allow from websites I visit
-- [X] Ask websites not to track me 
-#### Notifications
+- [X] Ask websites not to track me
+
 #### Extensions
 - 1Password
 - Instapaper
@@ -83,33 +113,25 @@ Install your favorite browser, mine happens to be Chrome.
 
 Download from [www.google.com/chrome](https://www.google.com/intl/en/chrome/browser/). Open the **.dmg** file once it's done downloading (this will mount the disk image), and drag and drop the **Google Chrome** app into the Applications folder (on the Mac, most applications are installed this way). When done, you can unmount the disk in Finder (the small "eject" icon next to the disk under **Devices**).
 
-## iTerm2
+## Compiler
+Installing development-related software in the past has required the compiler tool-chain that comes with Xcode. Thankfully, if you don’t need or want Xcode, those compiler tools are now available separately, saving download time and about four gigabytes of disk space.
 
-Since we're going to be spending a lot of time in the command-line, let's install a better terminal than the default one. Download and install [iTerm2](http://www.iterm2.com/) (the newest version, even if it says "beta release").
+Alternatively, there are some reasons you might want the full version of Xcode:
 
-In **Finder**, drag and drop the **iTerm** Application file into the **Applications** folder.
+-To compile the few tools that won’t compile without the full version of Xcode
+-To download and manually compile open-source Mac applications
+-To develop your own Mac/iOS applications
+-Once you’ve decided whether you need Xcode or not, run the following command in the Terminal:
 
-You can now launch iTerm, through the **Launchpad** for instance.
+    $ xcode-select --install
 
-Let's just quickly change some preferences. In **iTerm > Preferences...**, under the tab **General**, uncheck **Confirm closing multiple sessions** and **Confirm "Quit iTerm2 (Cmd+Q)" command** under the section **Closing**.
-
-In the tab **Profiles**, create a new one with the "+" icon, and rename it to your first name for example. Then, select **Other Actions... > Set as Default**. Finally, under the section **Window**, change the size to something better, like **Columns: 125** and **Rows: 35**.
-
-When done, hit the red "X" in the upper left (saving is automatic in OS X preference panes). Close the window and open a new one to see the size change.
+You will then be asked whether you want to install Xcode or the command line developer tools, with the latter being the default. Once you’ve installed one or the other, you can proceed to installing Homebrew.
 
 ## Homebrew
 
 Package managers make it so much easier to install and update applications (for Operating Systems) or libraries (for programming languages). The most popular one for OS X is [Homebrew](http://brew.sh/).
 
 ### Install
-
-An important dependency before Homebrew can work is the **Command Line Tools** for **Xcode**. These include compilers that will allow you to build things from source.
-
-Now, Xcode weights something like 2GB, and you don't need it unless you're developing iPhone or Mac apps. Good news is Apple provides a way to install only the Command Line Tools, without Xcode. To do this you need to go to [http://developer.apple.com/downloads](http://developer.apple.com/downloads), and sign in with your Apple ID (the same one you use for iTunes and app purchases). Unfortunately, you're greeted by a rather annoying questionnaire. All questions are required, so feel free to answer at random.
-
-Once you reach the downloads page, search for "command line tools", and download the latest **Command Line Tools (OS X Mountain Lion) for Xcode**. Open the **.dmg** file once it's done downloading, and double-click on the **.mpkg** installer to launch the installation. When it's done, you can unmount the disk in Finder.
-
-**Note**: If you are running **OS X 10.9 Mavericks**, then you can install the Xcode Command Line Tools directly from the command line with `$ xcode-select --install`, and you don't have to go through the download page and the questionnaire.
 
 Finally, we can install Hombrew! In the terminal paste the following line (without the `$`), hit **Enter**, and follow the steps on the screen:
 
@@ -122,17 +144,17 @@ One thing we need to do is tell the system to use programs installed by Hombrew 
 Open a new terminal tab with **Cmd+T** (you should also close the old one), then run the following command to make sure everything works:
 
     $ brew doctor
-    
+
 ### Usage
 
 To install a package (or **Formula** in Homebrew vocabulary) simply type:
 
     $ brew install <formula>
-        
+
 To update Homebrew's directory of formulae, run:
 
     $ brew update
-    
+
 **Note**: I've seen that command fail sometimes because of a bug. If that ever happens, run the following (when you have Git installed):
 
     $ cd /usr/local
@@ -142,11 +164,11 @@ To update Homebrew's directory of formulae, run:
 To see if any of your packages need to be updated:
 
     $ brew outdated
-    
+
 To update a package:
 
     $ brew upgrade <formula>
-        
+
 Homebrew keeps older versions of packages installed, in case you want to roll back. That rarely is necessary, so you can do some cleanup to get rid of those old versions:
 
     $ brew cleanup
@@ -154,6 +176,78 @@ Homebrew keeps older versions of packages installed, in case you want to roll ba
 To see what you have installed (with their version numbers):
 
     $ brew list --versions
+
+You can use the info command to find out more about a given package
+
+    $ brew info ssh-copy-id
+
+Let's grab some basics before going any further
+
+    $ brew install ssh-copy-id wget vim git zsh
+
+## Homebrew Cask
+
+Get the elegance, simplicity, and speed of Homebrew for the installation and management of GUI Mac applications such as Google Chrome and Adium.
+
+### Install
+Install Homebrew-cask is really straight forward. We just need to add the cask tap and then install brew cask.
+
+    $ brew install caskroom/cask/brew-cask
+    $ brew cask install google-chrome
+
+### Search
+It is really simple to check if the app is supported by cask by going to the search page on [caskroom.io](caskroom.io)
+
+### Quick look plugins
+Some [plugins](https://github.com/sindresorhus/quick-look-plugins) to enable different files to work with Mac Quicklook. Includes features like syntax highlighting, markdown rendering, preview of jsons, patch files, csv, zip files etc.
+
+    $ brew cask install qlcolorcode
+    $ brew cask install qlstephen
+    $ brew cask install qlmarkdown
+    $ brew cask install quicklook-json
+    $ brew cask install qlprettypatch
+    $ brew cask install quicklook-csv
+    $ brew cask install betterzipql
+    $ brew cask install webpquicklook
+    $ brew cask install suspicious-package
+
+## App Installation
+I'll now cover installation of the apps that I have mentioned in the apps section using cask.
+
+    $ brew cask install airmail
+    $ brew cask install alfred
+    $ brew cask install android-file-transfer
+    $ brew cask install asepsis
+    $ brew cask install appcleaner
+    $ brew cask install caffeine
+    $ brew cask install cheatsheet
+    $ brew cask install doubletwist
+    $ brew cask install dropbox
+    $ brew cask install flux
+    $ brew cask install google-chrome
+    $ brew cask install google-drive
+    $ brew cask install google-hangouts
+    $ brew cask install iterm2
+    $ brew cask install latexian
+    $ brew cask install onepassword
+    $ brew cask install pdftk
+    $ brew cask install spectacle
+    $ brew cask install sublime-text
+    $ brew cask install superduper
+    $ brew cask install totalfinder
+    $ brew cask install transmission
+    $ brew cask install valentina-studio
+    $ brew cask install vlc
+
+## iTerm2
+
+We installed it via cask above.
+
+Let's just quickly change some preferences. In **iTerm > Preferences...**, under the tab **General**, uncheck **Confirm closing multiple sessions** and **Confirm "Quit iTerm2 (Cmd+Q)" command** under the section **Closing**.
+
+In the tab **Profiles**, create a new one with the "+" icon, and rename it to your first name for example. Then, select **Other Actions... > Set as Default**. Finally, under the section **Window**, change the size to something better, like **Columns: 125** and **Rows: 35**.
+
+When done, hit the red "X" in the upper left (saving is automatic in OS X preference panes). Close the window and open a new one to see the size change.
 
 ## Consolas
 
@@ -197,7 +291,7 @@ We'll come back to the details of that later, but for now, just download the fil
     $ curl -O https://raw.githubusercontent.com/nicolashery/mac-dev-setup/master/.bash_profile
     $ curl -O https://raw.githubusercontent.com/nicolashery/mac-dev-setup/master/.bash_prompt
     $ curl -O https://raw.githubusercontent.com/nicolashery/mac-dev-setup/master/.aliases
-    
+
 With that, open a new terminal tab (Cmd+T) and see the change! Try the list commands: `ls`, `ls -lh` (aliased to `ll`), `ls -lha` (aliased to `la`).
 
 At this point you can also change your computer's name, which shows up in this terminal prompt. If you want to do so, go to **System Preferences** > **Sharing**. For example, I changed mine from "Nicolas's MacBook Air" to just "MacBook Air", so it shows up as `MacBook-Air` in the terminal.
@@ -211,11 +305,11 @@ Now we have a terminal we can work with!
 What's a developer without [Git](http://git-scm.com/)? To install, simply run:
 
     $ brew install git
-    
+
 When done, to test that it installed fine you can run:
 
     $ git --version
-    
+
 And `$ which git` should output `/usr/local/bin/git`.
 
 Let's set up some basic configuration. Download the [.gitconfig](https://raw.githubusercontent.com/nicolashery/mac-dev-setup/master/.gitconfig) file to your home directory:
@@ -235,9 +329,9 @@ They will get added to your `.gitconfig` file.
 To push code to your GitHub repositories, we're going to use the recommended HTTPS method (versus SSH). So you don't have to type your username and password everytime, let's enable Git password caching as described [here](https://help.github.com/articles/set-up-git):
 
     $ git config --global credential.helper osxkeychain
-    
+
 **Note**: On a Mac, it is important to remember to add `.DS_Store` (a hidden OS X system file that's put in folders) to your `.gitignore` files. You can take a look at this repository's [.gitignore](https://github.com/nicolashery/mac-dev-setup/blob/master/.gitignore) file for inspiration.
-    
+
 ## Sublime Text
 
 With the terminal, the text editor is a developer's most important tool. Everyone has their preferences, but unless you're a hardcore [Vim](http://en.wikipedia.org/wiki/Vim_(text_editor)) user, a lot of people are going to tell you that [Sublime Text](http://www.sublimetext.com/) is currently the best one out there.
@@ -267,7 +361,7 @@ Just like the terminal, let's configure our editor a little. Go to **Sublime Tex
     "indent_to_bracket": true
 }
 ```
-    
+
 Feel free to tweak these to your preference. When done, save the file and close it.
 
 I use tab size 2 for everything except Python and Markdown files, where I use tab size 4. If you have a Python and Markdown file handy (or create dummy ones with `$ touch dummy.py`), for each one, open it and go to **Sublime Text 2 > Preferences > Settings - More > Syntax Specific - User** to paste in:
@@ -284,7 +378,7 @@ A popular Theme is the [Soda Theme](https://github.com/buymeasoda/soda-theme). T
 
     $ cd ~/Library/Application\ Support/Sublime\ Text\ 2/Packages/
     $ git clone https://github.com/buymeasoda/soda-theme/ "Theme - Soda"
-    
+
 Then go to **Sublime Text 2 > Preferences > Settings - User** and add the following two lines:
 
     "theme": "Soda Dark.sublime-theme",
@@ -348,26 +442,26 @@ OS X, like Linux, ships with [Python](http://python.org/) already installed. But
 The following command will install Python 2.7 and any dependencies required (it can take a few minutes to build everything):
 
     $ brew install python
-    
+
 When finished, you should get a summary in the terminal. Running `$ which python` should output `/usr/local/bin/python`.
 
 It also installed [Pip]() (and its dependency [Distribute]()), which is the package manager for Python. Let's upgrade them both:
 
     $ pip install --upgrade distribute
     $ pip install --upgrade pip
-    
+
 Executable scripts from Python packages you install will be put in `/usr/local/share/python`, so let's add it to the `$PATH`. To do so, we'll create a `.path` text file in the home directory (I've already set up `.bash_profile` to call this file):
 
     $ cd ~
     $ subl .path
-    
+
 And add these lines to `.path`:
 
 ```bash
 PATH=/usr/local/share/python:$PATH
 export PATH
 ```
-    
+
 Save the file and open a new terminal to take the new `$PATH` into account (everytime you open a terminal, `.bash_profile` gets loaded).
 
 ### Pip Usage
@@ -379,11 +473,11 @@ Here are a couple Pip commands to get you started. To install a Python package:
 To upgrade a package:
 
     $ pip install --upgrade <package>
-        
+
 To see what's installed:
 
     $ pip freeze
-    
+
 To uninstall a package:
 
     $ pip uninstall <package>
@@ -406,7 +500,7 @@ Let's say you have a project in a directory called `myproject`. To set up virtua
 
     $ cd myproject/
     $ virtualenv venv --distribute
-    
+
 If you want your virtualenv to also inherit globally installed packages (like IPython or Numpy mentioned above), use:
 
     $ virtualenv venv --distribute --system-site-packages
@@ -414,7 +508,7 @@ If you want your virtualenv to also inherit globally installed packages (like IP
 These commands create a `venv` subdirectory in your project where everything is installed. You need to **activate** it first though (in every terminal where you are working on your project):
 
     $ source venv/bin/activate
-    
+
 You should see a `(venv)` appear at the beginning of your terminal prompt indicating that you are working inside the virtualenv. Now when you install something:
 
     $ pip install <package>
@@ -436,7 +530,7 @@ Before we install IPython, we'll need to get some dependencies. Run the followin
     $ brew update # Always good to do
     $ brew install zeromq # Necessary for pyzmq
     $ brew install pyqt # Necessary for the qtconsole
-    
+
 It may take a few minutes to build these.
 
 Once it's done, we can install IPython with all the available options:
@@ -448,17 +542,17 @@ Once it's done, we can install IPython with all the available options:
 You can launch IPython from the command line with `$ ipython`, but what's more interesting is to use its [QT Console](http://ipython.org/ipython-doc/stable/interactive/qtconsole.html). Launch the QT Console by running:
 
     $ ipython qtconsole
-    
+
 You can also customize the font it uses:
 
     $ ipython qtconsole --ConsoleWidget.font_family="Consolas" --ConsoleWidget.font_size=13
-    
+
 And since I'm lazy and I don't want to type or copy & paste that all the time, I'm going to create an alias for it. Create a `.extra` text file in your home directory with `$ subl ~/.extra` (I've set up `.bash_profile` to load `.extra`), and add the following line:
 
 ```bash
 alias ipy='ipython qtconsole --ConsoleWidget.font_family="Consolas" --ConsoleWidget.font_size=13'
 ```
-    
+
 Open a fresh terminal. Now when you run `$ ipy`, it will launch the QT Console with your configured options.
 
 To use the in-line Matplotlib functionality (nice for scientific computing), run `$ ipy --pylab=inline`.
@@ -471,16 +565,16 @@ First, grab the special formulae (which are not part of Homebrew core):
 
     $ brew tap samueljohn/python
     $ brew tap homebrew/science
-    
+
 Then, install the `gfortran` dependency (now in `gcc`) which we will need to build the libraries:
 
     $ brew install gcc
-    
+
 Finally, you can install Numpy and Scipy with:
 
     $ brew install numpy
     $ brew install scipy
-    
+
 (It may take a few minutes to build.)
 
 ## MySQL
@@ -505,19 +599,19 @@ As you can see in the ouput from Homebrew, before we can use MySQL we first need
 To start the MySQL server, use the `mysql.server` tool:
 
     $ mysql.server start
-    
+
 To stop it when you are done, run:
 
     $ mysql.server stop
-    
+
 You can see the different commands available for `mysql.server` with:
 
     $ mysql.server --help
-    
+
 To connect with the command-line client, run:
 
     $ mysql -uroot
-    
+
 (Use `exit` to quit the MySQL shell.)
 
 **Note**: By default, the MySQL user `root` has no password. It doesn't really matter for a local development database. If you wish to change it though, you can use `$ mysqladmin -u root password 'new-password'`.
@@ -534,7 +628,7 @@ Install [Node.js](http://nodejs.org/) with Homebrew:
 
     $ brew update
     $ brew install node
-    
+
 The formula also installs the [npm](https://npmjs.org/) package manager. However, as suggested by the Homebrew output, we need to add `/usr/local/share/npm/bin` to our path so that npm-installed modules with executables will have them picked up.
 
 To do so, add this line to your `~/.path` file, before the `export PATH` line:
@@ -542,7 +636,7 @@ To do so, add this line to your `~/.path` file, before the `export PATH` line:
 ```bash
 PATH=/usr/local/share/npm/bin:$PATH
 ```
-        
+
 Open a new terminal for the `$PATH` changes to take effect.
 
 We also need to tell npm where to find the Xcode Command Line Tools, by running:
@@ -588,9 +682,9 @@ To uninstall a package:
 
 ##JSHint
 
-JSHint is a JavaScript developer's best friend. 
+JSHint is a JavaScript developer's best friend.
 
-If the extra credit assignment to install Sublime Package Manager was completed, JSHint can be run as part of Sublime Text. 
+If the extra credit assignment to install Sublime Package Manager was completed, JSHint can be run as part of Sublime Text.
 
 Install JSHint via npm (global install preferred)
 
@@ -607,7 +701,7 @@ Like Python, [Ruby](http://www.ruby-lang.org/) is already installed on Unix syst
 When installing Ruby, best practice is to use [RVM](https://rvm.io/) (Ruby Version Manager) which allows you to manage multiple versions of Ruby on the same machine. Installing RVM, as well as the latest version of Ruby, is very easy. Just run:
 
     $ curl -L https://get.rvm.io | bash -s stable --ruby
-    
+
 When it is done, both RVM and a fresh version of Ruby 2.0 are installed. The following line was also automatically added to your `.bash_profile`:
 
 ```bash
@@ -619,7 +713,7 @@ I prefer to move that line to the `.extra` file, keeping my `.bash_profile` clea
 After that, start a new terminal and run:
 
     $ type rvm | head -1
-    
+
 You should get the output `rvm is a function`.
 
 ### Usage
@@ -645,39 +739,39 @@ You can install another version with:
 To update RVM itself, use:
 
     $ rvm get stable
-    
+
 [RubyGems](http://rubygems.org/), the Ruby package manager, was also installed:
 
     $ which gem
-    
+
 Update to its latest version with:
 
     $ gem update --system
-    
+
 To install a "gem" (Ruby package), run:
 
     $ gem install <gemname>
-        
+
 To install without generating the documentation for each gem (faster):
 
     $ gem install <gemname> --no-document
-        
+
 To see what gems you have installed:
 
     $ gem list
-    
+
 To check if any installed gems are outdated:
 
     $ gem outdated
-    
+
 To update all gems or a particular gem:
 
     $ gem update [<gemname>]
-    
+
 RubyGems keeps old versions of gems, so feel free to do come cleaning after updating:
 
     $ gem cleanup
-    
+
 I mainly use Ruby for the CSS pre-processor [Compass](http://compass-style.org/), which is built on top of [Sass](http://sass-lang.com/):
 
     $ gem install compass --no-document
@@ -702,7 +796,7 @@ This should output some information about the compiler:
 
     lessc 1.5.1 (LESS Compiler) [JavaScript]
 
-Okay, LESS is installed and running. Great! 
+Okay, LESS is installed and running. Great!
 
 ### Usage
 
@@ -725,11 +819,11 @@ Read more about LESS on their page here: http://lesscss.org/
 Assuming that you have an account (sign up if you don't), let's install the [Heroku Client](https://devcenter.heroku.com/articles/using-the-cli) for the command-line. Heroku offers a Mac OS X installer, the [Heroku Toolbelt](https://toolbelt.heroku.com/), that includes the client. But for these kind of tools, I prefer using Homebrew. It allows us to keep better track of what we have installed. Luckily for us, Homebrew includes a `heroku-toolbelt` formula:
 
     $ brew install heroku-toolbelt
-    
+
 The formula might not have the latest version of the Heroku Client, which is updated pretty often. Let's update it now:
 
     $ heroku update
-    
+
 Don't be afraid to run `heroku update` every now and then to always have the most recent version.
 
 ### Usage
@@ -737,18 +831,18 @@ Don't be afraid to run `heroku update` every now and then to always have the mos
 Login to your Heroku account using your email and password:
 
     $ heroku login
-    
+
 If this is a new account, and since you don't already have a public **SSH key** in your `~/.ssh` directory, it will offer to create one for you. Say yes! It will also upload the key to your Heroku account, which will allow you to deploy apps from this computer.
 
 If it didn't offer create the SSH key for you (i.e. your Heroku account already has SSH keys associated with it), you can do so manually by running:
 
      $ mkdir ~/.ssh
      $ ssh-keygen -t rsa
-     
+
 Keep the default file name and skip the passphrase by just hitting Enter both times. Then, add the key to your Heroku account:
 
     $ heroku keys:add
-    
+
 Once the key business is done, you're ready to deploy apps! Heroku has a great [Getting Started](https://devcenter.heroku.com/articles/python) guide, so I'll let you refer to that (the one linked here is for Python, but there is one for every popular language). Heroku uses Git to push code for deployment, so make sure your app is under Git version control. A quick cheat sheet (if you've used Heroku before):
 
     $ cd myapp/
@@ -756,7 +850,7 @@ Once the key business is done, you're ready to deploy apps! Heroku has a great [
     $ git push heroku master
     $ heroku ps
     $ heroku logs -t
-    
+
 The [Heroku Dev Center](https://devcenter.heroku.com/) is full of great resources, so be sure to check it out!
 
 ## MongoDB
