@@ -60,13 +60,15 @@ In **Apple Icon > System Preferences**:
 - [ ] User names and passwords
 - [ ] Credit cards
 - [X] Other forms
+
 #### Passwords
-- [ ] AutoFill user names and passwords
+- [ ] AutoFill user names and passwords 
+
 #### Search
 #### Security
 #### Privacy
-- Cookies and website data - allow from websites I visithu
-- [X] Ask websites not to track me
+- Cookies and website data - allow from websites I visit
+- [X] Ask websites not to track me 
 #### Notifications
 #### Extensions
 - 1Password
