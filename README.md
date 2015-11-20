@@ -4,33 +4,60 @@ This is my updated fork of [nicolashery's mac-dev-setup](https://github.com/nico
 I've added some from:
 - [hacker codex](http://hackercodex.com/guide/mac-osx-mavericks-10.9-configuration/).
 - [Mac OS X Setup Guide](http://sourabhbajaj.com/mac-setup/index.html)
+- [Saetia/g3d mac setup gist](https://gist.github.com/g3d/2709563)
+- [Hacker's Guide to Setting up Your Mac](http://lapwinglabs.com/blog/hacker-guide-to-setting-up-your-mac)
+- [osx-for-hackers script](https://gist.github.com/brandonb927/3195465)
 
 These pages may be of use:
 - [OS X Web Development](https://mallinson.ca/osx-web-development/)
+- [Developing on OS X Yosemite](http://fredkelly.net/articles/2014/10/19/developing_on_yosemite.html)
+- [Definitive guide to setting up a new mac for development](http://alexw.me/2013/10/definitive-guid-to-development-mac-setup/)
+- [How I Set Up My Mac Development Machine](http://www.sitepoint.com/set-mac-development-machine/)
+- [Get Mac Apps](http://www.getmacapps.com/) <- alternative to Homebrew Cask
 
-Some paid tools I like or may want to try:
-- [CodeKit](http://incident57.com/codekit/) (Front End Toolbox)
-- [Kaleidoscope](http://www.kaleidoscopeapp.com) (Incredible diff tool for more than text)
+Applications to cover:
+- Karabiner
+- Better Touch Tool
+- Keyboard Maestro
+- TextExpander
+
+**Note:** Everything starting with Beautiful Terminal is unchanged from my fork. This is still a WIP
+
+Paid tools I like:
 - [Navicat](http://www.navicat.com/) (SQL GUI - I use Premium Essentials, covers many databases)
 - [Transmit](http://panic.com/transmit/) (Excellent FTP/SFTP client)
-- [Tower](http://www.git-tower.com/) (Git Manager)
 - [Textual](https://www.codeux.com/textual/) (IRC Client)
     - [Colloquy](http://colloquy.info) is also great and free, but seems to have less active development these days
+
+Well reviewed tools I want to look into:
+- [CodeKit](http://incident57.com/codekit/) (Front End Toolbox)
+- [Kaleidoscope](http://www.kaleidoscopeapp.com) (Incredible diff tool for more than text)
+- [Shapes](http://shapesapp.com/) - possible alternative to OmniGraffle
+- [Exedore](http://celestialteapot.com/exedore/) - Mac Specific Python IDE
+- [Tower](http://www.git-tower.com/) (Git Manager)
+- [Dash](https://www.macupdate.com/app/mac/40201/dash) - offline documentation browser and code snippet manager
+- [Quiver](https://www.macupdate.com/app/mac/51045/quiver) - programmers notebook
+
+- Graphics
+    - [Pixelmator](http://www.pixelmator.com/mac/)
+    - [Skitch](https://evernote.com/skitch/)
+    - [Acorn](http://www.flyingmeat.com/acorn/)
+    - [Affinity Photo](https://affinity.serif.com/en-us/photo/)
+    - [Sketch](http://www.sketchapp.com/)
 
 This document describes how I set up my developer environment on a new MacBook or iMac. We will set up [Node](http://nodejs.org/) (JavaScript), [Python](http://www.python.org/), and [Ruby](http://www.ruby-lang.org/) environments, mainly for JavaScript and Python development. Even if you don't program in all three, it is good to have them as many command-line tools use one of them. This is mostly for personal reference, but may be useful for others.
 
 The document assumes you are new to Mac. The steps below were tested on **OS X 10.11 El Capitan**.
 
-
 - [System update](#system-update)
 - [System preferences](#system-preferences)
 - [Safari](#safari)
-- [Google Chrome](#google-chrome)
+- [Text Editors and IDEs](#text-editors-and-ides)
 - [Compiler](#compiler)
 - [Homebrew](#homebrew)
 - [Homebrew Cask](#homebrew-cask)
 - [iTerm2](#iterm2)
-- [Consolas](#consolas)
+- [Fonts](#fonts)
 - [Beautiful terminal](#beautiful-terminal)
 - [Git](#git)
 - [Sublime Text](#sublime-text)
@@ -92,6 +119,143 @@ Just like the last few releases, Mac OS X now hides the ~/Library folder by defa
 
 With the Finder as the foremost application, press shift-command-H and then command-J, which will bring up a window that configures Finder view options. Check the “Show Library Folder” and close the window. Thanks to the Apple engineers that made this process more user-friendly.
 
+## Setting some preferences from the command line
+**Note: Some of these are duplicates of above**
+
+```bash
+#Fix fonth smoothing
+defaults -currentHost write -globalDomain AppleFontSmoothing -int 0
+
+#Disable window animations
+defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
+
+#Enable repeat on keydown
+defaults write -g ApplePressAndHoldEnabled -bool false
+
+#Disable webkit homepage
+defaults write org.webkit.nightly.WebKit StartPageDisabled -bool true
+
+#Use current directory as default search scope in Finder
+defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+
+#Show Path bar in Finder
+defaults write com.apple.finder ShowPathbar -bool true
+
+#Show Status bar in Finder
+defaults write com.apple.finder ShowStatusBar -bool true
+
+#Show indicator lights for open applications in the Dock
+defaults write com.apple.dock show-process-indicators -bool true
+
+#Enable AirDrop over Ethernet and on unsupported Macs running Lion
+defaults write com.apple.NetworkBrowser BrowseAllInterfaces -bool true
+
+#Set a blazingly fast keyboard repeat rate
+defaults write NSGlobalDomain KeyRepeat -int 0.02
+
+#Set a shorter Delay until key repeat
+defaults write NSGlobalDomain InitialKeyRepeat -int 12
+
+#Disable disk image verification
+defaults write com.apple.frameworks.diskimages skip-verify -bool true &&
+defaults write com.apple.frameworks.diskimages skip-verify-locked -bool true &&
+defaults write com.apple.frameworks.diskimages skip-verify-remote -bool true
+
+#Disable Safari’s thumbnail cache for History and Top Sites
+defaults write com.apple.Safari DebugSnapshotsUpdatePolicy -int 2
+
+#Enable Safari’s debug menu
+defaults write com.apple.Safari IncludeInternalDebugMenu -bool true
+
+#Disable the Ping sidebar in iTunes
+defaults write com.apple.iTunes disablePingSidebar -bool true
+
+#Add a context menu item for showing the Web Inspector in web views
+defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
+
+#Show the ~/Library folder
+chflags nohidden ~/Library
+
+#Disable ping dropdowns
+defaults write com.apple.iTunes hide-ping-dropdown true
+
+#Expand the save panel by default
+defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
+defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
+defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
+
+#Automatically quit printer app once the print jobs complete
+defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
+
+#Disable the menubar transparency?
+defaults write com.apple.universalaccess reduceTransparency -bool true
+
+#Speed up wake from sleep to 24 hours from an hour
+# http://www.cultofmac.com/221392/quick-hack-speeds-up-retina-macbooks-wake-from-sleep-os-x-tips/
+sudo pmset -a standbydelay 86400
+
+#Increasing sound quality for Bluetooth headphones/headsets
+defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40
+
+#Enable full keyboard access for all controls (enable Tab in modal dialogs, menu windows, etc.)
+defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
+
+#Disable press-and-hold for special keys in favor of key repeat
+defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
+
+#Disable auto-correct
+defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
+
+#Set trackpad & mouse speed to a reasonable number
+defaults write -g com.apple.trackpad.scaling 2
+defaults write -g com.apple.mouse.scaling 2.5
+
+#Turn off keyboard illumination when computer is not used for 5 minutes
+defaults write com.apple.BezelServices kDimTime -int 300
+
+#Enabling subpixel font rendering on non-Apple LCDs
+defaults write NSGlobalDomain AppleFontSmoothing -int 2
+
+#Enable HiDPI display modes (requires restart)
+sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true
+
+#Set icon size of Dock items to 36 pixels
+defaults write com.apple.dock tilesize -int 36
+
+#Speeding up Mission Control animations and grouping windows by application
+defaults write com.apple.dock expose-animation-duration -float 0.1
+defaults write com.apple.dock "expose-group-by-app" -bool true
+
+#Enable the Develop menu and the Web Inspector in Safari
+defaults write com.apple.Safari IncludeDevelopMenu -bool true
+defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
+defaults write com.apple.Safari "com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled" -bool true
+
+#Add a context menu item for showing the Web Inspector in web views
+defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
+
+#Use the system-native print preview dialog in Chrome
+defaults write com.google.Chrome DisablePrintPreview -bool true
+defaults write com.google.Chrome.canary DisablePrintPreview -bool true
+
+#Enable UTF-8 ONLY in Terminal.app and set the Pro theme by default
+defaults write com.apple.terminal StringEncodings -array 4
+defaults write com.apple.Terminal "Default Window Settings" -string "Pro"
+defaults write com.apple.Terminal "Startup Window Settings" -string "Pro"
+
+Prevent Time Machine from prompting to use new hard drives as backup volume
+defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
+
+#Disable local Time Machine backups? (This can take up a ton of SSD space on <128GB SSDs)
+hash tmutil &> /dev/null && sudo tmutil disablelocal
+
+
+
+```
+
+## Set hostname
+    $ sudo scutil --set HostName Work
+
 ## Safari
 
 #### Menu -> View
@@ -120,29 +284,27 @@ With the Finder as the foremost application, press shift-command-H and then comm
     - Ka-Block! - tracking blocker
     - derpyme - link shortener
 
-## Text editors/IDEs
+## Text editors and IDEs
 Text editors are where a developer spends a lot of their time. Therefore the text editor one uses is a very personal choice. I'm still a vim user when editing config files. But for the last couple of years I've been doing Python development with [emacs]() and when adding web stuff, using either emacs or Sublime Text.
 
 ### IDEs
 IDEs are amazing. I've used Visual Studio for C# and Eclipse and IntelliJ Idea for Java. They are tightly integrated with the languages, which allows them to do amazing things with re-factoring that even the newest text editors don't do very well. I couldn't imagine writing Java without an IDE, and I think an IDE is worthwhile for many large projects. All that said, I personally like the level of customization and speed I get from text editors when the language/project size allows it.
 
 ### Text editors
-If you want to use a text editor, the big names right now are the venerable vim and emacs, along with the much more modern Sublime Text and Atom. There are a few Mac exclusives that might be worth taking a look at.
+If you want to use a text editor, the big names right now are the venerable vim and emacs, along with the much more modern Sublime Text and Atom. There are also a few Mac exclusives that might be worth taking a look at.
 - [BBEdit](http://www.barebones.com/products/bbedit/) - the editor that every Mac user had in the 90's and early 2000's
 - [TextWrangler](http://www.barebones.com/products/textwrangler/) - free editor from the makers of BBEdit
 - [Smultron](https://www.peterborgapps.com/smultron/) - quick and easy to use, and inexpensive
 - [TextMate](https://macromates.com) - I would argue that TextMate is a major reason that Apple was able to greatly increase market share in the 2000's. Web developers flocked to the platform for TextMate. Other developers and eventually mainstream users followed. TextMate was clearly the influence for the now super-popular Sublime Text, which itself was a major influence on Atom.
 
 ### Emacs
-C'mere, let's talk about this for a minute. You don't need emacs. Sublime Text is fine. The community is great, and there are tons of plugins and themes and tutorials available.
+OK, let's talk about this for a minute. You don't need emacs, or even vim. Sublime Text is fine. The community is great, and there are tons of plugins and themes and tutorials available.
 
-Emacs is different. Emacs is a living, breathing, monolithic environment, not a text editor. For hopping in and changing 3 specific spots in a config file, I can do it quicker in vim. To throw together a rough web site I can do it quicker with Sublime Text or Atom. But Emacs can be molded into what you want. You run your terminal, git, email client, chat client, outliner, and music player in it. They all have the same look and feel and key shortcuts. You build up a custom config for the way you want things to work, and because your config file is a series of function calls (and definitions!) you can build it in a way that it will automatically go out and grab everything you need on a new computer.
+Emacs is different. Emacs is a living, breathing, monolithic environment, not a text editor. For hopping in and changing 3 specific spots in a config file, I can do it quicker in vim. To throw together a rough web site I can do it quicker with Sublime Text or Atom. But Emacs can be molded into what you want. You run your terminal, git, email client, chat client, outliner, and music player in it. They all have the same look and feel and key shortcuts. You build up a custom config for the way you want things to work, and because your config file is a series of function calls (and definitions!) you can build it in a way that it will automatically go out and grab everything you need on a new computer. Additionally, the keyboard shortcuts to move around text seem strange, but if you learn them, the same shortcuts will work in any native text field on OS X, and on any standard POSIX readline.
 
 If you have used emacs in the past, you may be in for a surprise. The kind of problems that caused XEmacs to fork off have been largely solved. The GUI is using modern tooling across Windows/Mac/Linux, and there are modern theming and package systems. Org-mode is incredible, and serves as not only an outlining tool, but a task manager. It has become a world of it's own that now serves as the contact list and address book and blogging tool for many.
 
 If you are interested in trying out emacs, check out [tuhdo](http://tuhdo.github.io/index.html) to at least get started. Then pick up Mickey Petersen's [Mastering Emacs](https://www.masteringemacs.org/article/beginners-guide-to-emacs), money well spent.
-
-- Coda / Sublime Text / Atom  (IDEs / Text Editors)
 
 ## Compiler
 Installing development-related software in the past has required the compiler tool-chain that comes with Xcode. Thankfully, if you don’t need or want Xcode, those compiler tools are now available separately, saving download time and about four gigabytes of disk space.
@@ -211,7 +373,43 @@ Open a new terminal tab with **Cmd+T** (you should also close the old one), then
 
 Let's grab some basics before going any further
 
-    $ brew install ssh-copy-id wget vim git zsh
+    binaries=(
+      graphicsmagick
+      webkit2png
+      rename
+      zopfli
+      ffmpeg
+      python
+      sshfs
+      trash
+      node
+      vim
+      ssh-copy-id
+      wget
+      zsh
+      tree
+      ack
+      hub
+      git
+    )
+
+    echo "installing binaries..."
+    brew install ${binaries[@]}
+
+## Let homebrew replace several of the BSD utilties with more updated equivalents
+
+    # Install GNU core utilities (those that come with OS X are outdated)
+    brew install coreutils
+
+    # Install GNU `find`, `locate`, `updatedb`, and `xargs`, g-prefixed
+    brew install findutils
+
+    # Install Bash 4
+    brew install bash
+
+    # Install more recent versions of some OS X tools
+    brew tap homebrew/dupes
+    brew install homebrew/dupes/grep
 
 ## Homebrew Cask
 
@@ -239,33 +437,79 @@ Some [plugins](https://github.com/sindresorhus/quick-look-plugins) to enable dif
     $ brew cask install webpquicklook
     $ brew cask install suspicious-package
 
-## App Installation
-I'll now cover installation of the apps that I have mentioned in the apps section using cask.
+### Cask App Installation
+An example script to install apps via brew cask
 
-    $ brew cask install airmail
-    $ brew cask install alfred
-    $ brew cask install android-file-transfer
-    $ brew cask install asepsis
-    $ brew cask install appcleaner
-    $ brew cask install caffeine
-    $ brew cask install cheatsheet
-    $ brew cask install doubletwist
-    $ brew cask install dropbox
-    $ brew cask install flux
-    $ brew cask install google-chrome
-    $ brew cask install google-drive
-    $ brew cask install google-hangouts
-    $ brew cask install iterm2
-    $ brew cask install latexian
-    $ brew cask install onepassword
-    $ brew cask install pdftk
-    $ brew cask install spectacle
-    $ brew cask install sublime-text
-    $ brew cask install superduper
-    $ brew cask install totalfinder
-    $ brew cask install transmission
-    $ brew cask install valentina-studio
-    $ brew cask install vlc
+    # Apps
+    apps=(
+      alfred
+
+      caffeine
+      dropbox
+      flux
+      google-chrome
+      iterm2
+      qlcolorcode
+      qlmarkdown
+      qlprettypatch
+      qlstephen
+      quicklook-json
+      spotify
+      sublime-text3
+      transmission
+      vlc
+    )
+
+    # Install apps to /Applications
+    # Default is: /Users/$user/Applications
+    echo "installing apps..."
+    brew cask install --appdir="/Applications" ${apps[@]}
+
+Some other popular apps availabe via brew-cask:
+
+    airmail
+    android-file-transfer
+    appcleaner
+    arq
+    asepsis
+    atom
+    cheatsheet
+    cloudup
+    firefox
+    flash
+    google-drive
+    google-hangouts
+    hazel
+    latexian
+    mailbox
+    nvalt
+    onepassword
+    pdftk
+    spectacle
+    sublime-text
+    superduper
+    totalfinder
+    valentina-studio
+    screenflick
+    seil
+    shiori
+    sketch
+    skype
+    slack
+    tower
+    transmit
+    vagrant
+    virtualbox
+
+### Attention Alfred users
+
+One thing you may notice if you're an Alfred user is that you cannot actually launch these apps from Alfred because the actual location of the app is not in `/Applications` but in `/opt/homebrew-cask/Caskroom/`.
+
+To add this path to Alfred, you can run the following command:
+
+    $ brew cask alfred link
+
+Voila!
 
 ## iTerm2
 
@@ -277,9 +521,50 @@ In the tab **Profiles**, create a new one with the "+" icon, and rename it to yo
 
 When done, hit the red "X" in the upper left (saving is automatic in OS X preference panes). Close the window and open a new one to see the size change.
 
-## Consolas
+## ZSH
 
-I really like the Consolas font for coding. Being a Microsoft (!) font, it is not installed by default. Since we're going to be looking at a lot of terminal output and code, let's install it now.
+    # (optional) install latest zsh with homebrew (currently 5.0.6)
+    $ brew install zsh
+    # get oh-my-zsh
+    $ curl -L http://install.ohmyz.sh | sh
+
+A few tweaks for your .zshrc
+    ZSH=$HOME/.oh-my-zsh
+    ZSH_THEME="candy"
+    plugins=(git osx rails3 ruby github node npm brew)
+    source $ZSH/oh-my-zsh.sh
+    export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mysql/bin:/usr/X11/bin
+
+## Fonts
+
+### Cask fonts
+
+Cask can also be used to automatically download and install fonts. In order to enable this, you'll need to tap the fonts cask:
+
+    $ brew tap caskroom/fonts
+
+The font recipes are prefixed by font-*, so if you want to download [Roboto](http://www.google.com/fonts/specimen/Roboto), try searching for font-roboto:
+
+    $ brew cask search /font-roboto/
+
+Here's a script to install fonts:
+
+    # fonts
+    fonts=(
+      font-m-plus
+      font-clear-sans
+      font-roboto
+    )
+
+    # install fonts
+    echo "installing fonts..."
+    brew cask install ${fonts[@]}
+
+You can find a full list of the fonts in the [caskroom/homebrew-fonts](https://github.com/caskroom/homebrew-fonts/tree/master/Casks) repo.
+
+### Consolas
+
+Another popular coding font is Consolas. Being a Microsoft (!) font, it is not installed by default.
 
 There are two ways we can install it. If you bought **Microsoft Office for Mac**, install that and Consolas will be installed as well.
 
@@ -327,6 +612,8 @@ At this point you can also change your computer's name, which shows up in this t
 Now we have a terminal we can work with!
 
 (Thanks to Mathias Bynens for his awesome [dotfiles](https://github.com/mathiasbynens/dotfiles).)
+
+You may be interested in [iTerm2 Color Schemes](http://iterm2colorschemes.com/)
 
 ## Git
 
