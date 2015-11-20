@@ -1,8 +1,23 @@
 # Mac OS X Dev Setup
 
-This is my updated fork of [nicolashery's mac-dev-setup](https://github.com/nicolashery/mac-dev-setup). I've added some from [hacker codex](http://hackercodex.com/guide/mac-osx-mavericks-10.9-configuration/). This is mostly for personal reference, but may be useful for others.
+This is my updated fork of [nicolashery's mac-dev-setup](https://github.com/nicolashery/mac-dev-setup).
+I've added some from:
+- [hacker codex](http://hackercodex.com/guide/mac-osx-mavericks-10.9-configuration/).
+- [Mac OS X Setup Guide](http://sourabhbajaj.com/mac-setup/index.html)
 
-This document describes how I set up my developer environment on a new MacBook or iMac. We will set up [Node](http://nodejs.org/) (JavaScript), [Python](http://www.python.org/), and [Ruby](http://www.ruby-lang.org/) environments, mainly for JavaScript and Python development. Even if you don't program in all three, it is good to have them as many command-line tools use one of them.
+These pages may be of use:
+- [OS X Web Development](https://mallinson.ca/osx-web-development/)
+
+Some paid tools I like or may want to try:
+- [CodeKit](http://incident57.com/codekit/) (Front End Toolbox)
+- [Kaleidoscope](http://www.kaleidoscopeapp.com) (Incredible diff tool for more than text)
+- [Navicat](http://www.navicat.com/) (SQL GUI - I use Premium Essentials, covers many databases)
+- [Transmit](http://panic.com/transmit/) (Excellent FTP/SFTP client)
+- [Tower](http://www.git-tower.com/) (Git Manager)
+- [Textual](https://www.codeux.com/textual/) (IRC Client)
+    - [Colloquy](http://colloquy.info) is also great and free, but seems to have less active development these days
+
+This document describes how I set up my developer environment on a new MacBook or iMac. We will set up [Node](http://nodejs.org/) (JavaScript), [Python](http://www.python.org/), and [Ruby](http://www.ruby-lang.org/) environments, mainly for JavaScript and Python development. Even if you don't program in all three, it is good to have them as many command-line tools use one of them. This is mostly for personal reference, but may be useful for others.
 
 The document assumes you are new to Mac. The steps below were tested on **OS X 10.11 El Capitan**.
 
@@ -64,16 +79,18 @@ In **Apple Icon > System Preferences**:
 ## Finder
 - Toolbar
     - Update to add Path
-
 - Menu -> Go -> Connect to Server
     - add share for work "smb://192.168.0.1/dir" and hit +
-
 - Sidebar
     - Add home and code direcotry
-
 - Preferences
     - General > New folder windows show: home directory
     - Sidebar > Show computer under Devices
+
+## Unhide the Library folder
+Just like the last few releases, Mac OS X now hides the ~/Library folder by default, but on Yosemite and Mavericks it is now easier to make it visible again.
+
+With the Finder as the foremost application, press shift-command-H and then command-J, which will bring up a window that configures Finder view options. Check the “Show Library Folder” and close the window. Thanks to the Apple engineers that made this process more user-friendly.
 
 ## Safari
 
@@ -83,35 +100,49 @@ In **Apple Icon > System Preferences**:
 
 ### Preferences
 
-#### General
-- [X] Smart Search Field: Show full website address
-- [X] Show Develop menu in menu bar
+- General
+    - [X] Smart Search Field: Show full website address
+    - [X] Show Develop menu in menu bar
+- AutoFill
+    - [X] Using info from my Contacts card
+    - [ ] User names and passwords
+    - [ ] Credit cards
+    - [X] Other forms
+- Passwords
+    - [ ] AutoFill user names and passwords
+- Privacy
+    - Cookies and website data - allow from websites I visit
+    - [X] Ask websites not to track me
+- Extensions
+    - 1Password
+    - Instapaper
+    - Recent Tab List - probably don't need
+    - Ka-Block! - tracking blocker
+    - derpyme - link shortener
 
-#### AutoFill
-- [X] Using info from my Contacts card
-- [ ] User names and passwords
-- [ ] Credit cards
-- [X] Other forms
+## Text editors/IDEs
+Text editors are where a developer spends a lot of their time. Therefore the text editor one uses is a very personal choice. I'm still a vim user when editing config files. But for the last couple of years I've been doing Python development with [emacs]() and when adding web stuff, using either emacs or Sublime Text.
 
-#### Passwords
-- [ ] AutoFill user names and passwords
+### IDEs
+IDEs are amazing. I've used Visual Studio for C# and Eclipse and IntelliJ Idea for Java. They are tightly integrated with the languages, which allows them to do amazing things with re-factoring that even the newest text editors don't do very well. I couldn't imagine writing Java without an IDE, and I think an IDE is worthwhile for many large projects. All that said, I personally like the level of customization and speed I get from text editors when the language/project size allows it.
 
-#### Privacy
-- Cookies and website data - allow from websites I visit
-- [X] Ask websites not to track me
+### Text editors
+If you want to use a text editor, the big names right now are the venerable vim and emacs, along with the much more modern Sublime Text and Atom. There are a few Mac exclusives that might be worth taking a look at.
+- [BBEdit](http://www.barebones.com/products/bbedit/) - the editor that every Mac user had in the 90's and early 2000's
+- [TextWrangler](http://www.barebones.com/products/textwrangler/) - free editor from the makers of BBEdit
+- [Smultron](https://www.peterborgapps.com/smultron/) - quick and easy to use, and inexpensive
+- [TextMate](https://macromates.com) - I would argue that TextMate is a major reason that Apple was able to greatly increase market share in the 2000's. Web developers flocked to the platform for TextMate. Other developers and eventually mainstream users followed. TextMate was clearly the influence for the now super-popular Sublime Text, which itself was a major influence on Atom.
 
-#### Extensions
-- 1Password
-- Instapaper
-- Recent Tab List - probably don't need
-- Ka-Block! - tracking blocker
-- derpyme - link shortener
+### Emacs
+C'mere, let's talk about this for a minute. You don't need emacs. Sublime Text is fine. The community is great, and there are tons of plugins and themes and tutorials available.
 
-## Google Chrome
+Emacs is different. Emacs is a living, breathing, monolithic environment, not a text editor. For hopping in and changing 3 specific spots in a config file, I can do it quicker in vim. To throw together a rough web site I can do it quicker with Sublime Text or Atom. But Emacs can be molded into what you want. You run your terminal, git, email client, chat client, outliner, and music player in it. They all have the same look and feel and key shortcuts. You build up a custom config for the way you want things to work, and because your config file is a series of function calls (and definitions!) you can build it in a way that it will automatically go out and grab everything you need on a new computer.
 
-Install your favorite browser, mine happens to be Chrome.
+If you have used emacs in the past, you may be in for a surprise. The kind of problems that caused XEmacs to fork off have been largely solved. The GUI is using modern tooling across Windows/Mac/Linux, and there are modern theming and package systems. Org-mode is incredible, and serves as not only an outlining tool, but a task manager. It has become a world of it's own that now serves as the contact list and address book and blogging tool for many.
 
-Download from [www.google.com/chrome](https://www.google.com/intl/en/chrome/browser/). Open the **.dmg** file once it's done downloading (this will mount the disk image), and drag and drop the **Google Chrome** app into the Applications folder (on the Mac, most applications are installed this way). When done, you can unmount the disk in Finder (the small "eject" icon next to the disk under **Devices**).
+If you are interested in trying out emacs, check out [tuhdo](http://tuhdo.github.io/index.html) to at least get started. Then pick up Mickey Petersen's [Mastering Emacs](https://www.masteringemacs.org/article/beginners-guide-to-emacs), money well spent.
+
+- Coda / Sublime Text / Atom  (IDEs / Text Editors)
 
 ## Compiler
 Installing development-related software in the past has required the compiler tool-chain that comes with Xcode. Thankfully, if you don’t need or want Xcode, those compiler tools are now available separately, saving download time and about four gigabytes of disk space.
@@ -121,6 +152,7 @@ Alternatively, there are some reasons you might want the full version of Xcode:
 -To compile the few tools that won’t compile without the full version of Xcode
 -To download and manually compile open-source Mac applications
 -To develop your own Mac/iOS applications
+
 -Once you’ve decided whether you need Xcode or not, run the following command in the Terminal:
 
     $ xcode-select --install
@@ -147,39 +179,35 @@ Open a new terminal tab with **Cmd+T** (you should also close the old one), then
 
 ### Usage
 
-To install a package (or **Formula** in Homebrew vocabulary) simply type:
-
+    # To install a package (or **Formula** in Homebrew vocabulary) simply type:
     $ brew install <formula>
 
-To update Homebrew's directory of formulae, run:
-
+    # To update Homebrew's directory of formulae, run:
     $ brew update
 
-**Note**: I've seen that command fail sometimes because of a bug. If that ever happens, run the following (when you have Git installed):
+    # To see if any of your packages need to be updated:
+    $ brew outdated
+
+    # To update a package:
+    $ brew upgrade <formula>
+
+    # Homebrew keeps older versions of packages installed, in case you want
+    # to roll back. That rarely is necessary, so you can use the cleanup
+    # command to get rid of those old versions:
+    $ brew cleanup
+
+    # To see what you have installed (with their version numbers):
+    $ brew list --versions
+
+    # You can use the info command to find out more about a given package
+    $ brew info ssh-copy-id
+
+
+**Note**: Brew update will fail sometimes because of a bug. If that ever happens, run the following:
 
     $ cd /usr/local
     $ git fetch origin
     $ git reset --hard origin/master
-
-To see if any of your packages need to be updated:
-
-    $ brew outdated
-
-To update a package:
-
-    $ brew upgrade <formula>
-
-Homebrew keeps older versions of packages installed, in case you want to roll back. That rarely is necessary, so you can do some cleanup to get rid of those old versions:
-
-    $ brew cleanup
-
-To see what you have installed (with their version numbers):
-
-    $ brew list --versions
-
-You can use the info command to find out more about a given package
-
-    $ brew info ssh-copy-id
 
 Let's grab some basics before going any further
 
