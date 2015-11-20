@@ -48,6 +48,33 @@ In **Apple Icon > System Preferences**:
 - Keyboard > Delay Until Repeat > Short (all the way to the right)
 - Dock > Automatically hide and show the Dock
 
+## Safari Setup
+
+#### General
+- [X] Smart Search Field: Show full website address
+- [X] Show Develop menu in menu bar
+
+#### Tabs
+#### AutoFill
+- [X] Using info from my Contacts card
+- [ ] User names and passwords
+- [ ] Credit cards
+- [X] Other forms
+#### Passwords
+- [ ] AutoFill user names and passwords
+#### Search
+#### Security
+#### Privacy
+- Cookies and website data - allow from websites I visithu
+- [X] Ask websites not to track me
+#### Notifications
+#### Extensions
+- 1Password
+- Instapaper
+- Recent Tab List - probably don't need
+- Ka-Block! - tracking blocker
+- derpyme - link shortener
+
 ## Google Chrome
 
 Install your favorite browser, mine happens to be Chrome.
